@@ -9,6 +9,11 @@ This project is to
 
 There are two ways to start this project
 ### 1. With docker
+At this time, in the app.js, line 18 should be 
+```
+mongoose.connect("mongodb://apollinemap_mongo_1/nodedb")
+```
+start the project
 ```
 docker-compose up
 ```
@@ -22,6 +27,11 @@ use nodedb
 db.users.insert({name:"x",password:"x"}) 
 ```
 ### 2. Without docker
+At this time, in the app.js, line 18 should be 
+```
+mongoose.connect("mongodb://localhost/nodedb")
+```
+
 You need to start mongodb first
 
 ```

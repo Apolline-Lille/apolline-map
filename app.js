@@ -15,7 +15,7 @@ var config = require('./routes/config');
 
 
 global.dbHandel = require('./database/dbHandel');
-global.db = mongoose.connect("mongodb://apollinemap_mongo_1/nodedb");//apollinemap_mongo_1
+global.db = mongoose.connect("mongodb://localhost/nodedb");//apollinemap_mongo_1
 var app = express();
 app.use(session({ 
 	secret: 'secret',

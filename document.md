@@ -73,6 +73,9 @@ Pour l'instant, les data dans la base de données ne sont pas tout bonnes, il y 
    Solurtion:
 		Dans app.js, changer le nom de mongo container
 		mongoose.connect("mongodb://mongo-container-name:27017/nodedb");
+		//localhost dans le cas sans docker 
+		//apolline_mongo_1 dans le cas avec docker
+
 
 2.	Error: Cannot find module 'express'
 	Solution:
