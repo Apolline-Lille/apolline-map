@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+        <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+        <style type="text/css">
+            a{margin-left: 20px; text-decoration: none;}                    
+            a:hover{text-decoration: underline;}
+            html,body { height:100%; overflow:hidden;}
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">cartegraphy</a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li><a title="home" href="/home">home</a></li>
+                        <li class="active">
+                            <a title="config" href="/config">config</a>
+                        </li>
+                        <li><a title="logout" href="/logout">logout</a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <div id="mapLille1"  style="height:100%; width:100%"></div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Do you want to edit or delete this sensor?
+                    </h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="deleteSensor()">Delete
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editSensor()">
+                        Edit
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    <script src="javascripts/map.js"></script>
+    <script src="javascripts/config.js"></script>
+    <script>
+        function onEachFeature(feature, layer) {
+            layer.on({
+               click: modifierSensor
+            });
+        }
+            
+        var n = <%- data.length %>;
+        var captures = <%- data%>
+        for(var i=0; i<n;i++)                
+            L.geoJSON(captures[i],{onEachFeature: onEachFeature}).addTo(map);
+
+        function modifierSensor(e) {
+            $('#myModal').modal('show');
+            window.point=e;
+        }
+
+      function editSensor(){
+           var name=prompt("please entre name of this capture","");
+            if(name!=null & name!=""){
+                var data = {"cname":name,"lat":point.latlng.lat,"lng":point.latlng.lng};
+                $.ajax({
+                    url:'/config',
+                    type:'post',
+                    data: data,
+                    success: function(data,status){
+                        if(status == 'success'){ 
+                            location.href = 'home';
+                        }
+                    },
+                    error: function(data,status){ 
+                        if(status == 'error'){ 
+                            location.href = 'home';
+                        }
+                    }
+                });
+            }
+        }
+
+        function deleteSensor () {
+            var value = confirm("Do you want to delete this capture?");
+            if(value==true){
+                var data = {"cname":-1,"lat":point.latlng.lat,"lng":point.latlng.lng};
+                $.ajax({
+                    url:'/config',
+                    type:'post',
+                    data: data,
+                    success: function(data,status){
+                        if(status == 'success'){ 
+                            location.href = 'config';
+                        }
+                    },
+                    error: function(data,status){ 
+                        if(status == 'error'){ 
+                            location.href = 'config';
+                        }
+                    }
+                });     
+            }
+        }
+        
+    </script>
+</script>
+    </body>
+</html>
