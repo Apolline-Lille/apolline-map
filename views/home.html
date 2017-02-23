@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+      a{margin-left: 20px; text-decoration: none;}
+      a:hover{text-decoration: underline;}
+      html,body { height:100%; overflow:hidden;}
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">cartegraphy</a>
+        </div>
+        <div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a title="home" href="/home">home</a></li>
+            <li><a title="config" href="/config">config</a></li>  
+            <li><a title="logout" href="/logout">logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div id="mapLille1"  style="height:100%; width:100%"></div>
+    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    <script src="javascripts/map.js"></script>
+    <script>
+        var n = <%- data.length %>;
+        var captures = <%- data%>
+        for(var i=0; i<n;i++)
+            L.geoJSON(captures[i]).addTo(map);
+    </script>
+  </body>
+</html>
